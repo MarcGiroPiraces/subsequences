@@ -1,18 +1,17 @@
-import express, { Application, Request, Response } from 'express';
-import { generateJwtToken } from './auth/generateJwtToken';
+import express, { Application } from 'express';
 import { PORT } from './config';
+import { getSequences, getToken, insertSequences } from './controller';
 import { auth } from './middleware/auth';
+import { validateSequence } from './middleware/validationBody';
 
 const app: Application = express();
+app.use(express.json());
 
-app.get('/', auth, (req: Request, res: Response) => {
-  res.send('Welcome to the Server');
-});
+app.get('/token', getToken);
 
-app.get('/token', (req: Request, res: Response) => {
-  const token = generateJwtToken();
-  res.send(token);
-});
+app.post('/sequences', auth, validateSequence, insertSequences);
+
+app.get('/sequences', auth, getSequences);
 
 app.listen(PORT, () => {
   console.log(`Server is up at http://localhost:${PORT}`);
