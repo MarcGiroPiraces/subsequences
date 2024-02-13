@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { WithId } from 'mongodb';
 import { generateJwtToken } from './auth/generateJwtToken';
 import { connectDatabase } from './database/database';
+import { generateSequence } from './helperFunctions/generateSequence';
 import { generateSubsequences } from './helperFunctions/generateSubsequences';
 import { sortSequence } from './helperFunctions/sortSequence';
 import { sortSubsequences } from './helperFunctions/sortSubsequences';
@@ -32,7 +33,7 @@ export const getSequences = async (req: Request, res: Response) => {
     }>[];
 
     const response = subSequences.map((subsequence) => {
-      const sequence = [1, 2];
+      const sequence = generateSequence(subsequence.subsequences);
       const subSequences = subsequence.subsequences;
 
       return {
