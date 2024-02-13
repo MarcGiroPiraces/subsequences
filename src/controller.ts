@@ -2,15 +2,19 @@ import { Request, Response } from 'express';
 import { WithId } from 'mongodb';
 import { generateJwtToken } from './auth/generateJwtToken';
 import { connectDatabase } from './database/database';
-import { generateSubsequences } from './helperFunctios/generateSubsequences';
+import { generateSubsequences } from './helperFunctions/generateSubsequences';
+import { sortSequence } from './helperFunctions/sortSequence';
+import { sortSubsequences } from './helperFunctions/sortSubsequences';
 
 export const insertSequences = async (req: Request, res: Response) => {
   try {
     const collection = await connectDatabase();
 
     const sequence: [] = req.body.sequence;
-    const subsequences = generateSubsequences(sequence);
-    const insertObject = { subsequences: subsequences, createdAt: new Date() };
+    const sortedSequence = sortSequence(sequence);
+    const subsequences = generateSubsequences(sortedSequence);
+    const sortedSubsequences = sortSubsequences(subsequences);
+    const insertObject = { subsequences: sortedSubsequences, createdAt: new Date() };
 
     await collection.insertOne(insertObject);
 
@@ -23,13 +27,25 @@ export const insertSequences = async (req: Request, res: Response) => {
 export const getSequences = async (req: Request, res: Response) => {
   try {
     const collection = await connectDatabase();
-    const sequences = (await collection.find({}).toArray()) as WithId<{ subsequences: [] }>[];
+    const subSequences = (await collection.find({}).sort({ createdAt: -1 }).limit(10).toArray()) as WithId<{
+      subsequences: [];
+    }>[];
 
-    const sequencesOrderedByLength = sequences.sort((a, b) => {
-      return a.subsequences.length - b.subsequences.length;
+    const response = subSequences.map((subsequence) => {
+      const sequence = [1, 2];
+      const subSequences = subsequence.subsequences;
+
+      return {
+        sequence,
+        subSequences,
+      };
     });
 
-    res.send({ subsequences: sequencesOrderedByLength });
+    // const sequencesOrderedByLength = subsequences.sort((a, b) => {
+    //   return a.subsequences.length - b.subsequences.length;
+    // });
+
+    res.send(response);
   } catch (error) {
     res.status(500).send('Error getting sequences');
   }
