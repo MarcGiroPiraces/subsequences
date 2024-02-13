@@ -41,10 +41,6 @@ export const getSequences = async (req: Request, res: Response) => {
       };
     });
 
-    // const sequencesOrderedByLength = subsequences.sort((a, b) => {
-    //   return a.subsequences.length - b.subsequences.length;
-    // });
-
     res.send(response);
   } catch (error) {
     res.status(500).send('Error getting sequences');
