@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  subsequences:
+    build:
+      context: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - db
+    environment:
+      PORT: ${PORT}
+      CONNECTION_STRING: ${CONNECTION_STRING}
+      SECRET_KEY: ${SECRET_KEY}
+  db:
+    image: mongo:6
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DATABASE_NAME}
+    volumes:
+      - dbdata:/data/db
+volumes:
+  dbdata:
