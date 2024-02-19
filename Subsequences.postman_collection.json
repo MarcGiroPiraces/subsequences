@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "000ff91b-4a83-48f8-9e11-df0f04f2b2ea",
+		"name": "Subsequences",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20587351"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl5000}}token",
+					"host": [
+						"{{baseUrl5000}}token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sequences",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}sequences",
+					"host": [
+						"{{baseUrl}}sequences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Subsequences",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n    \"sequence\": [2, 1, 3]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}sequences",
+					"host": [
+						"{{baseUrl}}sequences"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyODQ0NDcsImlhdCI6MTcwODI4Mzg0N30.YuZH0NusXVG1Vkw3rZN2vfqk6VCCmuAKda6t568n7wg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/",
+			"type": "string"
+		},
+		{
+			"value": "",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
